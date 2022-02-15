@@ -27,7 +27,19 @@ export default function useCompanies() {
             await router.push({ name: 'companies.index'})
         } catch (e) {
             if (e.response.status === 422) {
-                errors = e.response.data.errors;
+                errors.value = e.response.data.errors;
+            }
+        }
+    }
+
+    const updateCompany = async (id) => {
+        errors.value = ''
+        try {
+            await axios.put ('/api/companies/' + id, company.value)
+            await router.push({ name: 'companies.index'})
+        } catch (e) {
+            if (e.response.status === 422) {
+                errors.value = e.response.data.errors;
             }
         }
     }
@@ -43,6 +55,7 @@ export default function useCompanies() {
         getCompany,
         getCompanies,
         storeCompany,
+        updateCompany,
         destroyCompany
     }
 }
